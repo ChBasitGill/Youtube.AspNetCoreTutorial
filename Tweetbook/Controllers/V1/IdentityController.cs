@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Tweetbook.Contracts.V1;
 using Tweetbook.Contracts.V1.Requests;
 using Tweetbook.Contracts.V1.Responses;
+using Tweetbook.Domain;
 using Tweetbook.Services;
 
 namespace Tweetbook.Controllers.V1
@@ -27,8 +28,8 @@ namespace Tweetbook.Controllers.V1
                     Errors = ModelState.Values.SelectMany(x => x.Errors.Select(xx => xx.ErrorMessage))
                 });
             }
-            
-            var authResponse = await _identityService.RegisterAsync(request.Email, request.Password);
+          
+            var authResponse = await _identityService.RegisterAsync(request);
 
             if (!authResponse.Success)
             {

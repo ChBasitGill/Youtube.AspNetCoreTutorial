@@ -33,5 +33,10 @@ namespace Tweetbook.Services
             
             return new Uri(modifiedUri);
         }
+
+        public Uri GetFiverrServiceUri(string serviceId)
+        {
+            return new Uri(_baseUri + ApiRoutes.FiverrServices.Get.Replace("{serviceId}", serviceId));
+        }
     }
 }

@@ -19,6 +19,7 @@ namespace Tweetbook.Installers
                 .AddEntityFrameworkStores<DataContext>();
 
             services.AddScoped<IPostService, PostService>();
+            services.AddScoped<IFiverrService, FiverrService>();
         }
     }
 }

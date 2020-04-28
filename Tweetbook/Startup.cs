@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Tweetbook.Contracts.HealthChecks;
@@ -43,6 +45,8 @@ namespace Tweetbook
                 app.UseHsts();
             }
 
+            app.UseCors("_myAllowSpecificOrigins");
+
             app.UseHealthChecks("/health", new HealthCheckOptions
             {
                 ResponseWriter = async (context, report) =>
@@ -67,7 +71,6 @@ namespace Tweetbook
             
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseAuthentication();
             
             var swaggerOptions = new SwaggerOptions();
@@ -79,7 +82,6 @@ namespace Tweetbook
             {
                 option.SwaggerEndpoint(swaggerOptions.UiEndpoint, swaggerOptions.Description);
             });
-
             app.UseMvc();
         }
     }

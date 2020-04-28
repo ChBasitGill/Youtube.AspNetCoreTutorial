@@ -40,5 +40,13 @@
             
             public const string Refresh = Base + "/identity/refresh";
         }
+        public static class FiverrServices
+        {
+            public const string GetAll = Base + "/services";
+            public const string Get = Base + "/services/{serviceId}";
+            public const string Create = Base + "/services";
+            public const string Delete = Base + "/services/{serviceId}";
+            public const string Update = Base + "/services/{serviceId}";
+        }
     }
 }

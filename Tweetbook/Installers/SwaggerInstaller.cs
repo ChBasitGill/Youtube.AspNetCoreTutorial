@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
+using Tweetbook.Services;
 
 namespace Tweetbook.Installers
 {
@@ -34,7 +35,6 @@ namespace Tweetbook.Installers
                         Type = ReferenceType.SecurityScheme
                     }}, new List<string>()} 
                 });
-
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 x.IncludeXmlComments(xmlPath);

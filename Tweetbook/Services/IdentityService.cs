@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Tweetbook.Contracts.V1.Requests;
 using Tweetbook.Data;
 using Tweetbook.Domain;
 using Tweetbook.Options;
@@ -31,11 +32,10 @@ namespace Tweetbook.Services
             _roleManager = roleManager;
         }
         
-        public async Task<AuthenticationResult> RegisterAsync(string email, string password)
+        public async Task<AuthenticationResult> RegisterAsync(UserRegistrationRequest request)
         {
-            var existingUser = await _userManager.FindByEmailAsync(email);
-
-            if (existingUser != null)
+            var existingUserEmail = await _userManager.FindByEmailAsync(request.Email);
+            if (existingUserEmail != null)
             {
                 return new AuthenticationResult
                 {
@@ -43,16 +43,25 @@ namespace Tweetbook.Services
                 };
             }
 
+            var existingUserName = await _userManager.FindByNameAsync(request.UserName);
+            if (existingUserName != null)
+            {
+                return new AuthenticationResult
+                {
+                    Errors = new[] { "User with this Username already exists." }
+                };
+            }
             var newUserId = Guid.NewGuid();
             var newUser = new IdentityUser
             {
                 Id = newUserId.ToString(),
-                Email = email,
-                UserName = email
+                Email = request.Email,
+                UserName = request.UserName,
+                PhoneNumber =request.Phone,
             };
 
-            var createdUser = await _userManager.CreateAsync(newUser, password);
-
+            var createdUser = await _userManager.CreateAsync(newUser, request.Password);
+           
             if (!createdUser.Succeeded)
             {
                 return new AuthenticationResult

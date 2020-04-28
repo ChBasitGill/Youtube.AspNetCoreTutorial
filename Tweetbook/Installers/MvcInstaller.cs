@@ -11,6 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Tweetbook.Authorization;
 using Tweetbook.Filters;
+using Tweetbook.Image;
 using Tweetbook.Options;
 using Tweetbook.Services;
 
@@ -18,14 +19,27 @@ namespace Tweetbook.Installers
 {
     public class MvcInstaller : IInstaller
     {
+
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public void InstallServices(IServiceCollection services, IConfiguration configuration)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  builder =>
+                                  {
+                                      builder.AllowAnyOrigin()
+                                     .AllowAnyHeader()
+                                     .AllowAnyMethod();
+                                  });
+            });
+
             var jwtSettings = new JwtSettings();
             configuration.Bind(nameof(jwtSettings), jwtSettings);
             services.AddSingleton(jwtSettings);
 
             services.AddScoped<IIdentityService, IdentityService>();
-            
+
             services
                 .AddMvc(options =>
                 {
@@ -46,7 +60,7 @@ namespace Tweetbook.Installers
             };
 
             services.AddSingleton(tokenValidationParameters);
-            
+
             services.AddAuthentication(x =>
                 {
                     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -61,7 +75,7 @@ namespace Tweetbook.Installers
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("MustWorkForChapsas", policy =>
+                  options.AddPolicy("MustWorkForChapsas", policy =>
                     {
                         policy.AddRequirements(new WorksForCompanyRequirement("chapsas.com"));
                     });
@@ -76,6 +90,15 @@ namespace Tweetbook.Installers
                 var absoluteUri = string.Concat(request.Scheme, "://", request.Host.ToUriComponent(), "/");
                 return new UriService(absoluteUri);
             });
+
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
+
+
+            services.AddTransient<IImageHandler, ImageHandler>();
+            services.AddTransient<IImageWriter,ImageWriter>();
+
         }
     }
 }
