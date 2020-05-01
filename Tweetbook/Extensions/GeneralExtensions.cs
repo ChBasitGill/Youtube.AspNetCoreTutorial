@@ -14,5 +14,9 @@ namespace Tweetbook.Extensions
 
             return httpContext.User.Claims.Single(x => x.Type == "id").Value;
         }
+        public static string GetDomainName(this HttpContext httpContext)
+        {
+            return httpContext.Request.Host.Value.ToString();
+        }
     }
 }

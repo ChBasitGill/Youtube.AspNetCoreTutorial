@@ -11,7 +11,6 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Tweetbook.Authorization;
 using Tweetbook.Filters;
-using Tweetbook.Image;
 using Tweetbook.Options;
 using Tweetbook.Services;
 
@@ -94,11 +93,6 @@ namespace Tweetbook.Installers
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
-
-
-            services.AddTransient<IImageHandler, ImageHandler>();
-            services.AddTransient<IImageWriter,ImageWriter>();
-
         }
     }
 }

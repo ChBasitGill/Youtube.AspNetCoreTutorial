@@ -2,10 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Tweetbook.Contracts.V1.Requests;
 using Tweetbook.Data;
 using Tweetbook.Domain;
+using Tweetbook.Extensions;
 
 namespace Tweetbook.Services
 {
@@ -27,7 +29,7 @@ namespace Tweetbook.Services
 
         public async Task<bool> DeleteAsync(Guid Id, string UserId)
         {
-           var fiverrService =  await _dataContext.FiverrServices.SingleOrDefaultAsync(x => x.Id == Id && x.UserId==UserId);
+            var fiverrService = await _dataContext.FiverrServices.SingleOrDefaultAsync(x => x.Id == Id && x.UserId == UserId);
             if (fiverrService == null)
             {
                 return false;
@@ -40,7 +42,7 @@ namespace Tweetbook.Services
         public async Task<FiverrServices> GetFiverrServiceByIdAsync(Guid Id, string UserId)
         {
             return await _dataContext.FiverrServices
-            .SingleOrDefaultAsync(x => x.Id == Id && x.UserId==UserId);
+            .SingleOrDefaultAsync(x => x.Id == Id && x.UserId == UserId);
         }
 
         public async Task<bool> UpdateAsync(FiverrServices model, string UserId)
@@ -55,11 +57,22 @@ namespace Tweetbook.Services
             return updated > 0;
         }
 
-        public async  Task<List<FiverrServices>> GetFiverrServicesAsync(string UserId)
+        public async Task<List<FiverrServices>> GetFiverrServicesAsync(string UserId)
         {
+            
             var queryable = _dataContext.FiverrServices.AsQueryable();
+            return await queryable.ToListAsync();
+        }
 
-            return await queryable.ToListAsync(); 
+        public  List<string> GetFiverrServicesTagsAsync(string UserId)
+        {
+            var data= _dataContext.FiverrServices
+                .Where(x => x.UserId == UserId)
+                .Select(c => c.Categories)
+                .ToArray();
+
+            var result = String.Join(' ', data);
+           return result.Split(' ').Distinct().ToList();
         }
     }
 }

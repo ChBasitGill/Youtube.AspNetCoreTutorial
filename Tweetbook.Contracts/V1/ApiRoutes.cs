@@ -48,5 +48,9 @@
             public const string Delete = Base + "/services/{serviceId}";
             public const string Update = Base + "/services/{serviceId}";
         }
+        public static class FiverrServicesTags
+        {
+            public const string GetByUser = Base + "/servicestags";
+        }
     }
 }

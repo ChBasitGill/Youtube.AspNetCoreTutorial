@@ -11,6 +11,7 @@ namespace Tweetbook.Contracts.V1.Requests
         public string fiverrURL { get; set; }
         public string title { get; set; }   
         public string description { get; set; }
+        public string categories { get; set; }
         public IFormFile image { get; set; }
     }
     public class UpdateeFiverrServiceRequest
@@ -20,6 +21,7 @@ namespace Tweetbook.Contracts.V1.Requests
         public string FiverrURL { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+        public string[] Categories { get; set; }
         public IFormFile Image { get; set; }
     }
 }

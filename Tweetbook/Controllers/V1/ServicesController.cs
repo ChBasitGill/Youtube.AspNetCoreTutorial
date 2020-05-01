@@ -15,7 +15,6 @@ using Tweetbook.Contracts.V1.Requests;
 using Tweetbook.Contracts.V1.Responses;
 using Tweetbook.Domain;
 using Tweetbook.Extensions;
-using Tweetbook.Image;
 using Tweetbook.Services;
 
 namespace Tweetbook.Controllers.V1
@@ -26,21 +25,25 @@ namespace Tweetbook.Controllers.V1
         private readonly IFiverrService _service;
         private readonly IUriService _uriService;
         private readonly IMapper _mapper;
-        private readonly IImageHandler _imageHandler;
-
         private readonly IWebHostEnvironment webHostEnvironment;
-        public ServicesController(IFiverrService Service, IUriService uriService, IMapper mapper, IImageHandler imageHandler, IWebHostEnvironment hostEnvironment    )
+        public ServicesController(IFiverrService Service, IUriService uriService, IMapper mapper, IWebHostEnvironment hostEnvironment    )
         {
             _service = Service;
             _uriService = uriService;
             _mapper = mapper;
-            _imageHandler = imageHandler;
             webHostEnvironment = hostEnvironment;
         }
         [HttpGet(ApiRoutes.FiverrServices.GetAll)]
         public async Task<IActionResult> GetServices()
         {
             var result =await  _service.GetFiverrServicesAsync(HttpContext.GetUserId());
+            result.ForEach(c => c.Image = Path.Combine(webHostEnvironment.ContentRootPath, "Resources\\Images", $"{c.Image}"));
+            return Ok(result);
+        }
+        [HttpGet(ApiRoutes.FiverrServicesTags.GetByUser)]
+        public IActionResult GetTagsByUser()
+        {
+            var result =  _service.GetFiverrServicesTagsAsync(HttpContext.GetUserId());
 
             return Ok(result);
         }
@@ -59,6 +62,7 @@ namespace Tweetbook.Controllers.V1
                     Description = request.description,
                     Image =UploadedFile(request.image),
                     Rate = request.rate,
+                    Categories = request.categories,
                     UserId = HttpContext.GetUserId(),
                 };
                 await _service.CreateAsync(model);
@@ -72,6 +76,7 @@ namespace Tweetbook.Controllers.V1
                     Description = model.Description,
                     Rate = model.Rate,
                     Image = model.Image,
+                    Categories = model.Categories, 
                     UserId = model.UserId,
                 };
 
