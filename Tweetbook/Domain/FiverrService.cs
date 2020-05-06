@@ -10,7 +10,7 @@ namespace Tweetbook.Domain
     public class FiverrServices
     {
         public Guid Id { get; set; }
-        public decimal Rate { get; set; }
+        public int Rate { get; set; }
         public string FiverrURL { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }

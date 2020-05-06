@@ -37,7 +37,7 @@ namespace Tweetbook.Controllers.V1
         public async Task<IActionResult> GetServices()
         {
             var result =await  _service.GetFiverrServicesAsync(HttpContext.GetUserId());
-            result.ForEach(c => c.Image = Path.Combine(webHostEnvironment.ContentRootPath, "Resources\\Images", $"{c.Image}"));
+            result.ForEach(c => c.Image = Path.Combine("Content/Files/Images", $"{c.Image}"));
             return Ok(result);
         }
         [HttpGet(ApiRoutes.FiverrServicesTags.GetByUser)]
@@ -93,7 +93,7 @@ namespace Tweetbook.Controllers.V1
 
             if (file != null)
             {
-                string uploadsFolder = Path.Combine(webHostEnvironment.ContentRootPath, "Resources\\Images");
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "Content\\Files\\Images");
                 uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);
                 using (var fileStream = new FileStream(filePath, FileMode.Create))

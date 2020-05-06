@@ -7,7 +7,7 @@ namespace Tweetbook.Contracts.V1.Requests
 {
     public class CreateFiverrServiceRequest
     {
-        public decimal rate { get; set; }
+        public int rate { get; set; }
         public string fiverrURL { get; set; }
         public string title { get; set; }   
         public string description { get; set; }

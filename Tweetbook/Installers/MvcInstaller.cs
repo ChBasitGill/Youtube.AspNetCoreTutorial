@@ -38,7 +38,7 @@ namespace Tweetbook.Installers
             services.AddSingleton(jwtSettings);
 
             services.AddScoped<IIdentityService, IdentityService>();
-
+            
             services
                 .AddMvc(options =>
                 {
@@ -93,6 +93,7 @@ namespace Tweetbook.Installers
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
+            
         }
     }
 }

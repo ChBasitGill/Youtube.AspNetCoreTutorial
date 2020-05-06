@@ -3,7 +3,7 @@ using Tweetbook.Contracts.V1.Responses;
 
 namespace Tweetbook.SwaggerExamples.Responses
 {
-    public class TagResponseExample : IExamplesProvider<TagResponse>
+    public class ResponseExample : IExamplesProvider<TagResponse>
     {
         public TagResponse GetExamples()
         {

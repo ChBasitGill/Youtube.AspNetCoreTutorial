@@ -2,6 +2,10 @@
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "http://localhost/Tweetbook",
+      "sslPort": 0
+    },
     "iisExpress": {
       "applicationUrl": "http://localhost:49417",
       "sslPort": 44329
@@ -9,7 +13,7 @@
   },
   "profiles": {
     "Tweetbook": {
-      "commandName": "Project",
+      "commandName": "IISExpress",
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {

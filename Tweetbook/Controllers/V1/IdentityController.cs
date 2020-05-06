@@ -17,7 +17,7 @@ namespace Tweetbook.Controllers.V1
         {
             _identityService = identityService;
         }
-
+     
         [HttpPost(ApiRoutes.Identity.Register)]
         public async Task<IActionResult> Register([FromBody] UserRegistrationRequest request)
         {
@@ -45,7 +45,12 @@ namespace Tweetbook.Controllers.V1
                 RefreshToken = authResponse.RefreshToken
             });
         }
-        
+        /// <summary>
+        /// Login Api 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <response code="200">Countries returned OK</response>
+        /// <returns></returns>
         [HttpPost(ApiRoutes.Identity.Login)]
         public async Task<IActionResult> Login([FromBody] UserLoginRequest request)
         {
