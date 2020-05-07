@@ -82,7 +82,7 @@ namespace Tweetbook.Controllers.V1
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Internal server error: {ex}");
+                return StatusCode(500, $"Internal Server error: {ex}");
             }
         }
         private string UploadedFile(IFormFile file)
