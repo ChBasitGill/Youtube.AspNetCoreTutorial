@@ -24,13 +24,11 @@ namespace Tweetbook.Controllers.V1
     {
         private readonly IFiverrService _service;
         private readonly IUriService _uriService;
-        private readonly IMapper _mapper;
         private readonly IWebHostEnvironment webHostEnvironment;
-        public ServicesController(IFiverrService Service, IUriService uriService, IMapper mapper, IWebHostEnvironment hostEnvironment    )
+        public ServicesController(IFiverrService Service, IUriService uriService, IWebHostEnvironment hostEnvironment    )
         {
             _service = Service;
             _uriService = uriService;
-            _mapper = mapper;
             webHostEnvironment = hostEnvironment;
         }
         [HttpGet(ApiRoutes.FiverrServices.GetAll)]
